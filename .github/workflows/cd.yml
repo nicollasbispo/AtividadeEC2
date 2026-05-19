@@ -1,0 +1,22 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Pull Docker image
+        run: docker pull nicollasbispopereira12825/calculadora-api:latest
+
+      - name: Stop Docker container
+        run: docker stop calculadora-api || true
+
+      - name: Remove Docker container
+        run: docker rm calculadora-api || true
+
+      - name: Run Docker container
+        run: docker run --name calculadora-api -d -p 8080:8080 nicollasbispopereira12825/calculadora-api:latest
